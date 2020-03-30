@@ -42,6 +42,10 @@ public class ValuteService {
         this.valuteRepo = valuteRepo;
     }
 
+    public ValuteDto getValidDate() {
+        return valuteRepo.findTopByOrderByIdDesc();
+    }
+
     public ValuteDto getValuteByName(String name) {
         return valuteRepo.findByName(name);
     }

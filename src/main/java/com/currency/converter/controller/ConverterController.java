@@ -19,10 +19,6 @@ import java.util.List;
 @RequestMapping("/")
 public class ConverterController {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
-
     ValuteService valuteService;
 
     @Autowired
@@ -32,22 +28,8 @@ public class ConverterController {
 
     @GetMapping()
     public String main () {
-        LocalDate localDate = LocalDate.now();
-        String date = localDate.format(DATE_TIME_FORMATTER);
-        List<ValuteDto> list = valuteService.getAllByDate(getDate(date));
+        List<ValuteDto> list = valuteService.getAllByDate(valuteService.getValidDate().getDate());
         return "index";
-    }
-
-    private Timestamp getDate(String date) {
-        Date dateFormat = null;
-        Timestamp result = null;
-        try {
-            dateFormat = DATE_FORMATTER.parse(date);
-            result = new Timestamp(dateFormat.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
 }

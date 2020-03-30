@@ -10,4 +10,5 @@ import java.util.List;
 public interface ValuteRepo extends CrudRepository<ValuteDto, Long>, PagingAndSortingRepository<ValuteDto, Long> {
     ValuteDto findByName(String username);
     List<ValuteDto> findAllByDate(Timestamp date);
+    ValuteDto findTopByOrderByIdDesc();
 }
