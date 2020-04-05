@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "currency")
-public class ValuteDto {
+public class ValuteDto implements Comparable<ValuteDto>{
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -110,5 +110,9 @@ public class ValuteDto {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public int compareTo(ValuteDto valuteDto) {
+        return name.compareTo(valuteDto.getName());
     }
 }

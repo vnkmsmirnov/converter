@@ -1,6 +1,6 @@
 create sequence hibernate_sequence start 1 increment 1
 
-create table  currency if not exist (
+create table if not exists currency (
   id serial,
   idvalute varchar (20),
   numcode int8,
@@ -11,3 +11,5 @@ create table  currency if not exist (
   date timestamp,
   primary key (id)
 );
+
+

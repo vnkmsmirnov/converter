@@ -1,14 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Converter</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/sunny/jquery-ui.css">
 </head>
 <body>
-    <h3>Start page</h3>
-
-    <form action="/item" method="post">
-        <button type="submit" value="Submit">Submit</button>
+    <h3>Converter currency</h3>
+    <br>
+    <form th:align="justify" action="/" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-2 text-center">
+                <label for="have">Amount</label>
+                <input type="number" class="form-control" id="have" placeholder="input value" name="have" th:value="${have}">
+            </div>
+            <div class="form-group col-md-2 text-center">
+                <label for="get">Result</label>
+                <input type="text" class="form-control" id="get" placeholder="output value" name="get" th:value="${get}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2 text-center">
+                <label for="valute1">I have...</label>
+                <select class="form-control" id="valute1" name="valute1">
+                    <option th:each="val : ${currency}" th:text="${val.getName()}"></option>
+                </select>
+            </div>
+            <div class="form-group col-md-2 text-center">
+                <label for="valute2">I want...</label>
+                <select class="form-control" id="valute2" name="valute2">
+                    <option th:each="val : ${currency}" th:text="${val.getName()}"></option>
+                </select>
+            </div>
+        </div>
+        <button type="submit">Calculate</button>
     </form>
+
+    <div class="form-group col-md-2">
+        <label th:text="${message}"></label>
+    </div>
 </body>
 </html>

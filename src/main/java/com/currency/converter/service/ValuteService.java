@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +27,8 @@ import java.util.List;
 public class ValuteService {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("dd.MM.yyyy");
+    private static final Long idRur = 1l;
 
     private SoapService soapService;
     private ValuteRepo valuteRepo;
@@ -51,7 +52,11 @@ public class ValuteService {
     }
 
     public List<ValuteDto> getAllByDate(Timestamp date) {
-        return valuteRepo.findAllByDate(date);
+        List<ValuteDto> result = valuteRepo.findAllByDate(date);
+        result.add(valuteRepo.findById(idRur).get());
+        Collections.sort(result);
+        return result;
+
     }
 
     public List<ValuteDto> getAll() {
@@ -77,7 +82,7 @@ public class ValuteService {
     private void scheduledUpdateOfCurrencyData() {
         ValCurs valCurs = getCurrentDataFromCb();
         Timestamp date = getDateFromValCurs(valCurs);
-        List<ValuteDto> list = getAllByDate(date);
+        List<ValuteDto> list = valuteRepo.findAllByDate(date);
         if (list.size() == 0) {
             for (Valute valute : valCurs.getValutes()) {
                 save(toValuteDto(valute, date));
