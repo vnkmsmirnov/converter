@@ -27,36 +27,37 @@ public class ConverterController {
 
     @GetMapping()
     public String main (Model model) {
-        List<ValuteDto> list = valuteService.getAllByDate(valuteService.getValidDate().getDate());
+        List<ValuteDto> list = valuteService.getAllByDate(valuteService.getValidDate());
         model.addAttribute("currency", list);
         return "index";
     }
 
     @PostMapping()
-    public String calculate(@RequestParam("valute1") String valute1,
-                            @RequestParam("valute2") String valute2,
+    public String calculate(@RequestParam("valuteFrom") String valuteFrom,
+                            @RequestParam("valuteTo") String valuteTo,
                             @RequestParam(value = "have", defaultValue = "0") BigDecimal have,
-                            @RequestParam(value = "get", defaultValue = "0") BigDecimal get,
                             Model model) {
+        model.addAttribute("currencyFrom", valuteFrom);
+        model.addAttribute("currencyTo", valuteTo);
+        model.addAttribute("message", "Данные за " + valuteService.getFormattedValidDate());
+        currencyCalculation(model, valuteFrom, valuteTo, have);
+        model.addAttribute("currency", valuteService.getAllByDate(valuteService.getValidDate()));
+        return "index";
+    }
 
-        if (have.compareTo(new BigDecimal(0)) > 0) {
-            ValuteDto currencyFrom = valuteService.getValuteByName(valute1);
-            ValuteDto currencyTo = valuteService.getValuteByName(valute2);
-
-            BigDecimal from = currencyFrom.getValue();
-            BigDecimal to = currencyTo.getValue();
-
-            String result = have.divide(to, 2, RoundingMode.HALF_DOWN).toString();
-
-            model.addAttribute("get" , result);
-            model.addAttribute("have" , have);
-            model.addAttribute("currencyFrom", currencyFrom.getName());
-            model.addAttribute("currencyTo", currencyTo.getName());
+    private void currencyCalculation(final Model model, String valuteFrom, String valuteTo, BigDecimal have) {
+        if (have.compareTo(BigDecimal.ZERO) > 0) {
+            ValuteDto currencyFrom = valuteService.getValuteByName(valuteFrom);
+            ValuteDto currencyTo = valuteService.getValuteByName(valuteTo);
+            BigDecimal from = currencyFrom.getValue().divide(new BigDecimal(currencyFrom.getNominal()), 4, RoundingMode.HALF_UP);
+            BigDecimal multiply = have.multiply(from);
+            BigDecimal to = currencyTo.getValue().divide(new BigDecimal(currencyTo.getNominal()), 4, RoundingMode.HALF_UP);
+            BigDecimal result = multiply.divide(to, 4, RoundingMode.HALF_UP).stripTrailingZeros();
+            model.addAttribute("get" , result.toPlainString());
+            model.addAttribute("have" , have.stripTrailingZeros().toPlainString());
         } else {
             model.addAttribute("message", "Введите положительное число!");
         }
-        model.addAttribute("currency", valuteService.getAllByDate(valuteService.getValidDate().getDate()));
-        return "index";
     }
 
 }

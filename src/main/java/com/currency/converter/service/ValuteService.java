@@ -43,8 +43,12 @@ public class ValuteService {
         this.valuteRepo = valuteRepo;
     }
 
-    public ValuteDto getValidDate() {
-        return valuteRepo.findTopByOrderByIdDesc();
+    public Timestamp getValidDate() {
+        return valuteRepo.findTopByOrderByIdDesc().getDate();
+    }
+
+    public String getFormattedValidDate() {
+        return DATE_FORMATTER.format(getValidDate());
     }
 
     public ValuteDto getValuteByName(String name) {

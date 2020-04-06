@@ -15,32 +15,34 @@
         <div class="form-row">
             <div class="form-group col-md-2 text-center">
                 <label for="have">Amount</label>
-                <input type="number" class="form-control" id="have" placeholder="input value" name="have" th:value="${have}">
+                <input type="number" step="0.0001" class="form-control" id="have" placeholder="input value" name="have" th:value="${have}">
             </div>
             <div class="form-group col-md-2 text-center">
                 <label for="get">Result</label>
-                <input type="text" class="form-control" id="get" placeholder="output value" name="get" th:value="${get}">
+                <input type="number" step="0.0001" class="form-control" id="get" placeholder="output value" th:value="${get}">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-2 text-center">
-                <label for="valute1">I have...</label>
-                <select class="form-control" id="valute1" name="valute1">
-                    <option th:each="val : ${currency}" th:text="${val.getName()}"></option>
+                <label for="valuteFrom">I have...</label>
+                <select class="form-control" id="valuteFrom" name="valuteFrom">
+                    <option th:each="val : ${currency}" th:text="${val.getName()}" th:value="${val.getName()}" th:selected="${val.getName().equals(currencyFrom)}"></option>
                 </select>
             </div>
             <div class="form-group col-md-2 text-center">
-                <label for="valute2">I want...</label>
-                <select class="form-control" id="valute2" name="valute2">
-                    <option th:each="val : ${currency}" th:text="${val.getName()}"></option>
+                <label for="valuteTo">I want...</label>
+                <select class="form-control" id="valuteTo" name="valuteTo">
+                    <option th:each="val : ${currency}" th:text="${val.getName()}" th:value="${val.getName()}" th:selected="${val.getName().equals(currencyTo)}"></option>
                 </select>
             </div>
         </div>
         <button type="submit">Calculate</button>
     </form>
-
+    <br>
     <div class="form-group col-md-2">
-        <label th:text="${message}"></label>
+        <h6>
+            <label th:text="${message}"></label>
+        </h6>
     </div>
 </body>
 </html>
