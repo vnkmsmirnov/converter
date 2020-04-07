@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -27,8 +26,7 @@ public class ConverterController {
 
     @GetMapping()
     public String main (Model model) {
-        List<ValuteDto> list = valuteService.getAllByDate(valuteService.getValidDate());
-        model.addAttribute("currency", list);
+        model.addAttribute("currency", valuteService.getAllByDate(valuteService.getValidDate()));
         return "index";
     }
 

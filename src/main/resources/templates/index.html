@@ -26,13 +26,13 @@
             <div class="form-group col-md-2 text-center">
                 <label for="valuteFrom">I have...</label>
                 <select class="form-control" id="valuteFrom" name="valuteFrom">
-                    <option th:each="val : ${currency}" th:text="${val.getName()}" th:value="${val.getName()}" th:selected="${val.getName().equals(currencyFrom)}"></option>
+                    <option th:each="valFrom : ${currency}" th:text="${valFrom.getName()}" th:value="${valFrom.getName()}" th:selected="${valFrom.getName().equals(currencyFrom)}"></option>
                 </select>
             </div>
             <div class="form-group col-md-2 text-center">
                 <label for="valuteTo">I want...</label>
                 <select class="form-control" id="valuteTo" name="valuteTo">
-                    <option th:each="val : ${currency}" th:text="${val.getName()}" th:value="${val.getName()}" th:selected="${val.getName().equals(currencyTo)}"></option>
+                    <option th:each="valTo : ${currency}" th:text="${valTo.getName()}" th:value="${valTo.getName()}" th:selected="${valTo.getName().equals(currencyTo)}"></option>
                 </select>
             </div>
         </div>

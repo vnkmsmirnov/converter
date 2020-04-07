@@ -1,4 +1,4 @@
-create sequence hibernate_sequence start 1 increment 1
+create sequence hibernate_sequence start 1 increment 1;
 
 create table if not exists currency (
   id serial,
@@ -12,4 +12,5 @@ create table if not exists currency (
   primary key (id)
 );
 
-
+insert into  currency (idvalute, numcode, charcode, nominal, name, value, date)
+values ('RU0001', '0001', 'RUR', '1', 'Российский рубль', '1', '01.01.2020');

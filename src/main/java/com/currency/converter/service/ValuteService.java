@@ -57,14 +57,14 @@ public class ValuteService {
 
     public List<ValuteDto> getAllByDate(Timestamp date) {
         List<ValuteDto> result = valuteRepo.findAllByDate(date);
+        if (result.size() == 1) {
+            scheduledUpdateOfCurrencyData();
+            result = valuteRepo.findAllByDate(date);
+        }
         result.add(valuteRepo.findById(idRur).get());
         Collections.sort(result);
         return result;
 
-    }
-
-    public List<ValuteDto> getAll() {
-        return (List<ValuteDto>)valuteRepo.findAll();
     }
 
     public ValuteDto saveOrUpdate(ValuteDto valute) {
